@@ -9,7 +9,7 @@
 %define uname_r %{version}-%{release}
 Summary:        Signed Linux Kernel for %{buildarch} systems
 Name:           kernel-signed-%{buildarch}
-Version:        5.15.48.1
+Version:        5.15.48.99
 Release:        2%{?dist}
 License:        GPLv2
 Vendor:         Microsoft Corporation
