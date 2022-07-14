@@ -7,6 +7,7 @@ Vendor:         Microsoft Corporation
 Distribution:   Mariner
 URL:            https://mesonbuild.com/
 Source0:        https://github.com/mesonbuild/meson/releases/download/%{version}/%{name}-%{version}.tar.gz
+Patch0:         0001-mcompile-fix-broken-codepaths-and-restore-orphaned-c.patch
 BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  ninja-build
@@ -35,7 +36,9 @@ writing or debugging build definitions is a second wasted.
 So is every second spent waiting for the build system to actually start compiling code.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}
+##%%autosetup
+%patch0 -p1
 
 %build
 

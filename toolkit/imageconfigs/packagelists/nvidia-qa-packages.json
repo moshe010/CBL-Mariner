@@ -1,0 +1,6 @@
+{
+    "packages": [
+        "ypbind",
+        "virt-install"
+    ]
+}

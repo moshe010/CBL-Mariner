@@ -1,0 +1,41 @@
+From 59eb41b7bc5f701a040c546fe68d81fcfb9f01ef Mon Sep 17 00:00:00 2001
+From: Doug Nazar <nazard@nazar.ca>
+Date: Tue, 17 Aug 2021 19:49:08 -0400
+Subject: [PATCH] executor: Fix orc_executor_set_program() to save OrcCode
+
+orc_executor_set_program() was missed when it was added to
+orc_executor_new().
+---
+ orc/orcexecutor.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/orc/orcexecutor.c b/orc/orcexecutor.c
+index d1565cb..e36953f 100644
+--- a/orc/orcexecutor.c
++++ b/orc/orcexecutor.c
+@@ -24,8 +24,7 @@ orc_executor_new (OrcProgram *program)
+   ex = malloc(sizeof(OrcExecutor));
+   memset(ex,0,sizeof(OrcExecutor));
+ 
+-  ex->program = program;
+-  ex->arrays[ORC_VAR_A2] = program->orccode;
++  orc_executor_set_program (ex, program);
+ 
+   return ex;
+ }
+@@ -78,11 +77,7 @@ void
+ orc_executor_set_program (OrcExecutor *ex, OrcProgram *program)
+ {
+   ex->program = program;
+-  if (program->code_exec) {
+-    ex->arrays[ORC_VAR_A1] = (void *)program->code_exec;
+-  } else {
+-    ex->arrays[ORC_VAR_A1] = (void *)orc_executor_emulate;
+-  }
++  ex->arrays[ORC_VAR_A2] = program->orccode;
+ }
+ 
+ void
+-- 
+GitLab
+

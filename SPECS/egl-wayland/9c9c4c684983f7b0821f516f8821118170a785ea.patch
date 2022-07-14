@@ -1,0 +1,24 @@
+From 9c9c4c684983f7b0821f516f8821118170a785ea Mon Sep 17 00:00:00 2001
+From: Erik Kurzinger <ekurzinger@nvidia.com>
+Date: Fri, 14 Aug 2020 14:17:25 -0700
+Subject: [PATCH] include wayland-thread.h from wayland-eglstream-server.c
+
+The previous commit referenced functions declared in wayland-thread.h
+from wayland-eglstream-server.c, but neglected to add the required
+include directive.
+---
+ src/wayland-eglstream-server.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/wayland-eglstream-server.c b/src/wayland-eglstream-server.c
+index 331ad32..a62d7db 100644
+--- a/src/wayland-eglstream-server.c
++++ b/src/wayland-eglstream-server.c
+@@ -40,6 +40,7 @@
+ #include "wayland-eglstream.h"
+ #include "wayland-eglswap.h"
+ #include "wayland-eglutils.h"
++#include "wayland-thread.h"
+ 
+ #define MASK(_VAL_) (1 << (_VAL_))
+ 

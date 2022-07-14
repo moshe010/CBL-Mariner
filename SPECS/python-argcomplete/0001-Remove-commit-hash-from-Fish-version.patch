@@ -1,0 +1,25 @@
+From 0c7610ecd087b5f906772db7f5085db3b38e83c1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Hrn=C4=8Diar?= <thrnciar@redhat.com>
+Date: Wed, 5 Jan 2022 08:40:21 +0100
+Subject: [PATCH] Remove commit hash from Fish version
+
+---
+ test/test.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/test.py b/test/test.py
+index c2396ce..75e281c 100755
+--- a/test/test.py
++++ b/test/test.py
+@@ -31,7 +31,7 @@ COMP_WORDBREAKS = " \t\n\"'><=;|&(:"
+ BASH_VERSION = subprocess.check_output(['bash', '-c', 'echo $BASH_VERSION']).decode()
+ BASH_MAJOR_VERSION = int(BASH_VERSION.split('.')[0])
+ FISH_VERSION_STR = subprocess.check_output(['fish', '-c', 'echo -n $version']).decode()
+-FISH_VERSION_TUPLE = tuple(int(x) for x in FISH_VERSION_STR.split('.'))
++FISH_VERSION_TUPLE = tuple(int(x) for x in FISH_VERSION_STR.split('-',1)[0].split('.'))
+ 
+ 
+ class TempDir(object):
+-- 
+2.33.1
+

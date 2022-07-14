@@ -1,0 +1,36 @@
+From 9558ec02d0f7bbf30dc1f9ee4c0b06c9b0c49afe Mon Sep 17 00:00:00 2001
+From: Erik Kurzinger <ekurzinger@nvidia.com>
+Date: Fri, 14 Aug 2020 07:27:58 -0700
+Subject: [PATCH] suspend lock in eglBindWaylandDisplayWL
+
+When binding an external EGL display to a Wayland display, core EGL will
+need to translate the external handle to an internal handle before
+performing any API calls. This may occur, for example, when running a
+nested Wayland compositor where the EGL display will be using
+EGL_PLATFORM_WAYLAND as opposed to EGL_PLATFORM_DEVICE. Translating this
+handle involves calling wlEglGetInternalHandleExport, which attempts to
+acquire the external API lock. However, during eglBindWaylandDisplayWL this
+lock is already held.  As a result, when wl_eglstream_display_bind calls
+eglQueryString to retrieve the extension string, this lock acquisition will
+fail causing a crash.
+
+To fix this, wl_eglstream_display_bind should temporarily suspend the API
+lock before calling eglQueryString.
+---
+ src/wayland-eglstream-server.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/wayland-eglstream-server.c b/src/wayland-eglstream-server.c
+index c37f8e6..331ad32 100644
+--- a/src/wayland-eglstream-server.c
++++ b/src/wayland-eglstream-server.c
+@@ -308,7 +308,9 @@ wl_eglstream_display_bind(WlEglPlatformData *data,
+     wlStreamDpy->eglDisplay    = eglDisplay;
+     wlStreamDpy->caps_override = 0;
+ 
++    wlExternalApiUnlock();
+     exts = data->egl.queryString(eglDisplay, EGL_EXTENSIONS);
++    wlExternalApiLock();
+ 
+ #define CACHE_EXT(_PREFIX_, _NAME_)                                      \
+         wlStreamDpy->exts._NAME_ =                                       \

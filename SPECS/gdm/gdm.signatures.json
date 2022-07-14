@@ -1,0 +1,8 @@
+{
+ "Signatures": {
+  "gdm-42.0.tar.xz": "a328ac976937bec179971ff07829a1246b98ce724181c128ae32a0ba47ad3855",
+  "default.pa-for-gdm": "346d49f0d8f3c396e81d7627137dd108c9ba58c564085661f03b63e4d119608c",
+  "gdm.sysusers": "ccc1ce9d19ea47d150705f1bdaa9a665a833b94eaa8a2de625d20776120a9190",
+  "org.gnome.login-screen.gschema.override": "f0732aa479280e8313ee789ef59b9ba7d5f346d011be34d2fabdb3c760a76011" 
+ }
+}
