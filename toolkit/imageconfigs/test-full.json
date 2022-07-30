@@ -1,0 +1,77 @@
+{
+    "Disks": [
+        {
+            "PartitionTableType": "gpt",
+            "TargetDisk":
+            {
+            	"Type": "path",
+            	"Value": "/dev/sda"
+            },
+            "Partitions": [
+                {
+                    "ID": "boot",
+                    "Flags": [
+                        "grub"
+                    ],
+                    "Start": 1,
+                    "End": 9,
+                    "FsType": "fat32"
+                },
+                {
+                    "ID": "rootfs",
+                    "Start": 9,
+                    "End": 0,
+                    "FsType": "ext4"
+                }
+            ]
+        }
+    ],
+    "SystemConfigs": [
+        {
+            "IsDefault": true,
+	    "BootType": "legacy",
+            "Hostname": "cbl-mariner",
+	    "Name": "CBL-Mariner Full",
+            "PackageLists": [
+                "packagelists/developer-packages.json",
+                "packagelists/virtualization-host-packages.json",
+                "packagelists/core-packages-image.json",
+                "packagelists/core-tools-packages.json",
+                "packagelists/hyperv-packages.json",
+                "packagelists/ssh-server.json",
+                "packagelists/selinux-full.json",
+                "packagelists/drtm.json"
+            ],
+            "KernelCommandLine": {
+                "SELinux": "permissive"
+            },
+            "PostInstallScripts": [
+                {
+                    "Path": "additionalconfigs/configure-serial.sh"
+                }
+            ],
+            "KernelCommandLine": {
+                "ExtraCommandLine": "console=ttyS0"
+            },
+            "KernelOptions": {
+                "default": "kernel"
+            },
+            "PartitionSettings": [
+                {
+                    "ID": "boot",
+                    "MountPoint": ""
+                },
+                {
+                    "ID": "rootfs",
+                    "MountPoint": "/"
+                }
+            ],
+            "Users": [
+                {
+                    "Name": "root",
+                    "Password": "3tango"
+                }
+            ]
+        }
+    ]
+}
